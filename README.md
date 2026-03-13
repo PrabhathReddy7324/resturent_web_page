@@ -53,8 +53,8 @@ npm run dev     # Starts frontend on http://localhost:5173
 - **Admin Panel:** [http://localhost:5173/admin/login](http://localhost:5173/admin/login)
 
 **Default Admin Credentials:**
-- Username: `admin`
-- Password: `admin123`
+- Username: `kpr@123`
+- Password: `kpr#7324`
 
 ## Deployment via Render.com
 

@@ -81,14 +81,14 @@ with app.app_context():
             db.session.add(dish)
 
     # Create default admin
-    existing_admin = AdminUser.query.filter_by(username='admin').first()
+    existing_admin = AdminUser.query.filter_by(username='kpr@123').first()
     if not existing_admin:
-        hashed = bcrypt.hashpw('admin123'.encode('utf-8'), bcrypt.gensalt(rounds=12))
-        admin = AdminUser(username='admin', password_hash=hashed.decode('utf-8'))
+        hashed = bcrypt.hashpw('kpr#7324'.encode('utf-8'), bcrypt.gensalt(rounds=12))
+        admin = AdminUser(username='kpr@123', password_hash=hashed.decode('utf-8'))
         db.session.add(admin)
 
     db.session.commit()
     print("✅ Database seeded successfully!")
     print("   Categories:", len(CATEGORIES))
     print("   Dishes:", len(DISHES))
-    print("   Admin: admin / admin123")
+    print("   Admin: kpr@123 / kpr#7324")

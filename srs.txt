@@ -1,0 +1,100 @@
+Software Requirements Specification
+Restaurant Website System
+SRS Document | Version 1.0 | March 2026
+Prepared for: Restaurant Owner | Prepared by: Development Team
+1. Introduction
+1.1 Purpose
+This Software Requirements Specification (SRS) document describes the functional and non-functional requirements for the Restaurant Website System. It serves as the agreement between the client (restaurant owner) and the development team regarding what the system will do. This document will be used as the basis for design, development, testing, and acceptance of the final product.
+1.2 Scope
+The Restaurant Website System is a web application consisting of a public-facing website and an admin management panel. The public website allows restaurant customers to browse the menu, view dish details, explore special items, and contact the restaurant. The admin panel allows authorized restaurant staff to manage menu items on a daily basis without any technical knowledge.
+1.3 Definitions
+1.4 Overview
+This document is organized as follows: Section 2 covers the overall system description. Section 3 lists all functional requirements. Section 4 covers non-functional requirements. Section 5 describes system constraints.
+
+2. Overall System Description
+2.1 Product Perspective
+The Restaurant Website is a standalone web application. It replaces the need for a static brochure website by providing a dynamic, database-driven system. The system consists of two main components: a React-based Single Page Application (SPA) for the user interface, and a Flask-based REST API for backend logic and data management.
+2.2 Product Functions Summary
+2.3 User Classes
+2.3.1 Public User (Customer)
+Any person visiting the website without logging in
+Can browse the full menu, view dish details, and view specials
+Can submit a contact inquiry form
+Has read-only access to all public content
+2.3.2 Admin User (Restaurant Staff)
+Restaurant owner or designated staff member
+Must authenticate with username and password
+Has full CRUD access to all dish data
+Can upload/change dish images
+Can toggle dish availability and special status
+2.4 Operating Environment
+
+3. Functional Requirements
+FR-1: Home Page
+
+FR-2: Menu Page
+
+FR-3: Special Items Page
+
+FR-4: Dish Detail Page
+
+FR-5: Contact Page
+
+FR-6: Admin Authentication
+
+FR-7: Admin Dish Management
+
+4. Non-Functional Requirements
+NFR-1: Performance
+The public menu page shall load within 3 seconds on a standard broadband connection
+Dish images shall be served via Cloudinary CDN for fast loading globally
+The React frontend shall be code-split to minimize initial bundle size
+API responses shall be returned within 500ms under normal load conditions
+NFR-2: Usability
+The website shall be fully responsive and usable on mobile devices (320px min width)
+The admin panel interface shall be operable by a non-technical user after a 30-minute training session
+All interactive elements shall have clear hover/active states for visual feedback
+Form validation errors shall appear inline next to the relevant field, not as popups
+NFR-3: Security
+All data transmission shall use HTTPS (enforced by Render.com)
+Admin passwords shall be hashed using bcrypt with a minimum cost factor of 12
+JWT tokens shall be signed with a strong secret key (minimum 256-bit)
+The admin API endpoints shall reject requests without a valid JWT in the Authorization header
+SQL queries shall use parameterized statements via SQLAlchemy to prevent SQL injection
+CORS shall be configured to only accept requests from the production frontend domain
+NFR-4: Reliability
+The system shall target 99% uptime on the paid Render.com tier
+Database shall be backed up weekly by exporting the SQLite file
+The system shall display user-friendly error pages for 404 and 500 errors
+NFR-5: Maintainability
+All code shall include inline comments for non-obvious logic
+The database schema shall support easy migration to PostgreSQL without code changes
+API endpoints shall follow RESTful conventions consistently
+Frontend components shall be modular and reusable across pages
+NFR-6: Scalability
+The architecture shall support upgrading from SQLite to PostgreSQL without significant refactoring
+The Flask backend shall be structured to allow horizontal scaling via Gunicorn workers
+Static assets shall be served via CDN (Render.com global CDN for frontend)
+
+5. System Constraints & Assumptions
+5.1 Technical Constraints
+SQLite on Render.com free tier has ephemeral disk storage. A Render Disk addon ($7/month) or migration to PostgreSQL is required for persistent data in production.
+Render.com free tier Web Services spin down after 15 minutes of inactivity, causing a cold start delay of up to 30 seconds on the first request.
+Cloudinary free tier provides 25GB storage and 25GB monthly bandwidth. Sufficient for a restaurant website with up to ~500 dishes.
+The system is designed for a single restaurant location only.
+5.2 Business Constraints
+The admin panel supports a single admin account in the initial version (multi-user admin is a future enhancement).
+Menu item images must be uploaded by the admin; the system does not auto-generate or fetch images.
+The contact form stores messages in the database; no email notification system is included in v1.0 (future enhancement).
+5.3 Assumptions
+The restaurant owner has access to a computer or smartphone to manage the admin panel.
+Dish images are available in digital format (JPG or PNG, minimum 800x600 pixels recommended).
+The restaurant has a stable internet connection for admin operations.
+A Cloudinary account will be created by the development team and transferred at handover.
+
+6. Acceptance Criteria
+The following criteria must be met before the project is considered complete and ready for handover:
+
+
+End of Software Requirements Specification
+Document Version 1.0 | Review and approval required from both parties before development begins
