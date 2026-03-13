@@ -20,12 +20,11 @@ services:
           name: bellacucina-frontend
           envVarKey: RENDER_EXTERNAL_URL
 
-  - type: web
+  - type: static
     name: bellacucina-frontend
-    env: static
     rootDir: frontend
     buildCommand: "npm install && npm run build"
-    publishDirectory: dist
+    publishPath: dist
     envVars:
       - key: VITE_API_URL
         fromService:
