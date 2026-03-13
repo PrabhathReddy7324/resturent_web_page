@@ -67,7 +67,7 @@ export default function AdminLogin() {
                 className="form-input"
                 value={form.username}
                 onChange={handleChange}
-                placeholder="admin"
+                placeholder="kpr@123"
                 autoComplete="username"
                 autoFocus
               />
@@ -97,7 +97,7 @@ export default function AdminLogin() {
         </div>
 
         <p style={{ textAlign: 'center', fontSize: '0.78rem', color: 'var(--color-text-faint)', marginTop: '1.5rem' }}>
-          Default: admin / admin123
+          Default: kpr@123 / kpr#7324
         </p>
       </div>
     </main>
