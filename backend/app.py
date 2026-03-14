@@ -31,11 +31,38 @@ def create_app():
     app.register_blueprint(admin_bp)
     app.register_blueprint(contact_bp)
 
-    # Create tables on first run
+    # Create tables and seed essential data on first run
     with app.app_context():
         db.create_all()
+        _init_defaults(app)
 
     return app
+
+
+def _init_defaults(app):
+    """Create admin user and default categories if they don't exist."""
+    import bcrypt
+    from models import AdminUser, Category
+
+    # ── Admin user ────────────────────────────────────────────────────────
+    if not AdminUser.query.first():
+        pw_hash = bcrypt.hashpw('kpr#7324'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        db.session.add(AdminUser(username='kpr@123', password_hash=pw_hash))
+        app.logger.info('Created default admin user.')
+
+    # ── Default categories ────────────────────────────────────────────────
+    default_categories = [
+        ('Appetizers', 1),
+        ('Main Course', 2),
+        ('Desserts', 3),
+        ('Beverages', 4),
+        ('Specials', 5),
+    ]
+    for name, order in default_categories:
+        if not Category.query.filter_by(name=name).first():
+            db.session.add(Category(name=name, display_order=order))
+
+    db.session.commit()
 
 
 app = create_app()
