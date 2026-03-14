@@ -4,6 +4,28 @@ import api from '../../api/api'
 
 const EMPTY = { name: '', description: '', price: '', category_id: '', image_url: '', is_available: true, is_special: false }
 
+/**
+ * Convert Google Drive sharing URLs to direct image URLs.
+ * Supports formats like:
+ *   https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+ *   https://drive.google.com/open?id=FILE_ID
+ *   https://drive.google.com/uc?id=FILE_ID
+ */
+function toDirectImageUrl(url) {
+  if (!url) return url
+  const trimmed = url.trim()
+
+  // Match: /file/d/FILE_ID/
+  const fileMatch = trimmed.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/)
+  if (fileMatch) return `https://lh3.googleusercontent.com/d/${fileMatch[1]}`
+
+  // Match: ?id=FILE_ID or &id=FILE_ID
+  const idMatch = trimmed.match(/drive\.google\.com\/.*[?&]id=([a-zA-Z0-9_-]+)/)
+  if (idMatch) return `https://lh3.googleusercontent.com/d/${idMatch[1]}`
+
+  return trimmed
+}
+
 export default function AdminDishForm() {
   const { id } = useParams()
   const isEdit = !!id
@@ -48,7 +70,12 @@ export default function AdminDishForm() {
 
   const handleChange = e => {
     const { name, value, type, checked } = e.target
-    setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
+    let val = type === 'checkbox' ? checked : value
+    // Auto-convert Google Drive links to direct image URLs
+    if (name === 'image_url' && typeof val === 'string') {
+      val = toDirectImageUrl(val)
+    }
+    setForm(f => ({ ...f, [name]: val }))
     if (errors[name]) setErrors(err => ({ ...err, [name]: undefined }))
   }
 
