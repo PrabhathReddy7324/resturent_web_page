@@ -15,7 +15,10 @@ def create_app():
     app.config['JWT_HEADER_TYPE'] = 'Bearer'
 
     # Extensions
-    CORS(app, origins=app.config['CORS_ORIGINS'], supports_credentials=True)
+    CORS(app, origins=app.config['CORS_ORIGINS'],
+         methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+         allow_headers=['Content-Type', 'Authorization'],
+         supports_credentials=True)
     db.init_app(app)
     JWTManager(app)
 

@@ -70,7 +70,8 @@ export default function AdminDashboard() {
       await api.delete(`/admin/dishes/${deleteTarget.id}`)
       setDishes(d => d.filter(x => x.id !== deleteTarget.id))
       showFeedback(`"${deleteTarget.name}" deleted.`)
-    } catch {
+    } catch (err) {
+      console.error('Delete failed:', err.response?.status, err.response?.data || err.message)
       showFeedback('Delete failed', 'error')
     } finally {
       setDeleteTarget(null)
